@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const axios = require('axios')
 const jsdom = require('jsdom')
 const CacheService = require('../cache')
-
+const fetch = require('node-fetch');
 const { JSDOM } = jsdom;
 
 const ttl = 60; //cache for 60 seconds;
@@ -21,13 +21,26 @@ const getOS = async url => {
 }
 
 const fetchFloor = async () => {
-  const osPage = await getOS(openseaUrl)
-  const dom = new JSDOM(osPage)
-  let name = dom.window.document.querySelector('.AssetCardFooter--name').textContent
-  let price = dom.window.document.querySelector('.Price--amount').textContent
-  let url = `https://opensea.io${dom.window.document.querySelector('.Asset--anchor').href}`
+  let price = '';
+ let url = `https://api.opensea.io/api/v1/collections?asset_owner=0xeF311E803235a5993C12341fAD2e8a5650Dc9c71&offset=0&limit=300`;
+    let settings = { 
+      method: "GET",
+      headers: {
+        "X-API-KEY": process.env.OPEN_SEA_API_KEY
+      }
+    };
+    
+    const response = await fetch(url, settings);
+	if (response.ok) { 
+		let json = await response.json();
+		price = json[0].stats.floor_price;
+		
+	} else {
+		throw new Error(`Couldn't retrieve floor`);
+	}
+	
 
-  return {name, price, url}
+  return {price, url}
 }
 
 module.exports = {
