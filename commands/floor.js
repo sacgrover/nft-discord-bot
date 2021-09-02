@@ -49,7 +49,7 @@ module.exports = {
     cache.get("FloorPrice", fetchFloor)
       .then((data) => {
         const embedMsg = new Discord.MessageEmbed()
-          .setTitle(`The current floor price is ${data.price.trimEnd()}Ξ`)
+          .setTitle(`The current floor price is ${data.price}Ξ`)
           .setURL(data.url)
 
           message.channel.send(embedMsg);
