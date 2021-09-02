@@ -23,6 +23,7 @@ const getOS = async url => {
 const fetchFloor = async () => {
   let price = '';
  let url = `https://api.opensea.io/api/v1/collections?asset_owner=0xeF311E803235a5993C12341fAD2e8a5650Dc9c71&offset=0&limit=300`;
+	let url1= 'https://opensea.io/collection/djenerates-clubbing-edition'
     let settings = { 
       method: "GET",
       headers: {
@@ -40,7 +41,7 @@ const fetchFloor = async () => {
 	}
 	
 
-  return {price, url}
+  return {price, url1}
 }
 
 module.exports = {
